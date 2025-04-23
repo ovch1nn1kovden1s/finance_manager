@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../domain/models/expense.dart';
-import '../../domain/models/category.dart';
+import '../../models/expense.dart';
+import '../../models/category.dart';
 
 class HiveService {
   static Future<void> initHive() async {
@@ -10,8 +10,8 @@ class HiveService {
     Hive.registerAdapter(CategoryAdapter());
   }
 
-  static Future<Box<Expense>> openExpenseBox() async {
-    return await Hive.openBox<Expense>('expenses');
+  static Future<void> openExpenseBox() async {
+    await Hive.openBox<Expense>('expenses');
   }
 
   static Future<void> closeExpenseBox() async {
@@ -24,5 +24,15 @@ class HiveService {
 
   static Future<void> closeCategoryBox() async {
     await Hive.openBox<Expense>('categories');
+  }
+
+  static Box<Category> getCategoryBox() {
+    final categoryBox = Hive.box<Category>('categories');
+    return categoryBox;
+  }
+
+  static Box<Expense> getExpenseBox() {
+    final expenseBox = Hive.box<Expense>('expenses');
+    return expenseBox;
   }
 }

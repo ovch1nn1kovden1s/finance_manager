@@ -1,37 +1,21 @@
 import 'package:hive/hive.dart';
-import '../../domain/models/expense.dart';
-import '../db/hive_service.dart';
-import 'category_repository.dart';
+import '../../models/expense.dart';
 
 class ExpenseRepository {
   final Box<Expense> expenseBox;
-  final CategoryRepository categoryRepository;
 
-  ExpenseRepository(this.expenseBox, this.categoryRepository);
+  ExpenseRepository(this.expenseBox);
 
-  Future<List<Expense>> getAllExpenses() async {
-    await HiveService.openExpenseBox();
+  List<Expense> getAllExpenses() {
     List<Expense> expenses = expenseBox.values.toList();
-    await HiveService.closeExpenseBox();
     return expenses;
   }
 
   Future<void> addOrUpdateExpense(Expense expense) async {
-    await HiveService.openExpenseBox();
-    await HiveService.openCategoryBox();
-    var categories = await categoryRepository.getAllCategories();
-    if (categories.contains(expense.category)) {
-      await expenseBox.put(expense.id, expense);
-    } else {
-      throw Exception('Category not found');
-    }
-    await HiveService.closeExpenseBox();
-    await HiveService.openCategoryBox();
+    await expenseBox.put(expense.id, expense);
   }
 
-  Future<void> deleteExpense(int id) async {
-    await HiveService.openExpenseBox();
+  Future<void> deleteExpense(String id) async {
     await expenseBox.delete(id);
-    await HiveService.closeExpenseBox();
   }
 }

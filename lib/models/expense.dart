@@ -6,7 +6,7 @@ part 'expense.g.dart';
 @HiveType(typeId: 1)
 class Expense {
   @HiveField(0)
-  int id;
+  String id;
   @HiveField(1)
   String name;
   @HiveField(2)

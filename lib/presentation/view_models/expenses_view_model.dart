@@ -1,27 +1,27 @@
+import 'package:finance_manger/data/repositories/expense_repository.dart';
 import 'package:flutter/material.dart';
-import '../../domain/models/expense.dart';
-import '../../domain/use_cases/expenses_use_cases.dart';
+import '../../models/expense.dart';
 
 class ExpenseViewModel extends ChangeNotifier {
-  final ExpensesUseCases useCase;
+  final ExpenseRepository repository;
   List<Expense> _expenses = [];
 
-  ExpenseViewModel(this.useCase);
+  ExpenseViewModel(this.repository);
 
   List<Expense> get expenses => _expenses;
 
-  Future<void> loadExpenses() async {
-    _expenses = await useCase.getAllExpenses();
+  void loadExpenses() {
+    _expenses = repository.getAllExpenses();
     notifyListeners(); 
   }
 
-  Future<void> addExpense(Expense expense) async {
-    await useCase.addExpense(expense);
+  Future<void> addOrUpdateExpense(Expense expense) async {
+    await repository.addOrUpdateExpense(expense);
     loadExpenses();
   }
 
-  Future<void> removeExpense(int id) async {
-    await useCase.removeExpense(id);
+  Future<void> deleteExpense(String id) async {
+    await repository.deleteExpense(id);
     loadExpenses();
   }
 }

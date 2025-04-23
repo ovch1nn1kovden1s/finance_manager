@@ -1,27 +1,27 @@
+import 'package:finance_manger/data/repositories/category_repository.dart';
 import 'package:flutter/material.dart';
-import '../../domain/models/category.dart';
-import '../../domain/use_cases/categories_use_case.dart';
+import '../../models/category.dart';
 
 class CategoryViewModel extends ChangeNotifier {
-  final CategoriesUseCase useCase;
+  final CategoryRepository repository;
   List<Category> _categories = [];
 
-  CategoryViewModel(this.useCase);
+  CategoryViewModel(this.repository);
 
   List<Category> get categories => _categories;
 
-  Future<void> loadCategories() async {
-    _categories = await useCase.getAllCategories();
+  void loadCategories() {
+    _categories = repository.getAllCategories();
     notifyListeners();
   }
 
   Future<void> addCategory(Category category) async {
-    await useCase.addCategory(category);
+    await repository.addCategory(category);
     loadCategories();
   }
 
   Future<void> initDefaultCategories() async {
-    await useCase.initDefaultCategories();
+    await repository.initDefaultCategories();
     loadCategories();
   }
 }
