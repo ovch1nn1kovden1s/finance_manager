@@ -13,27 +13,26 @@ class ExpensesListScreen extends StatelessWidget {
         title: Text('Expenses'),
       ),
       body: FutureBuilder(
-        future: Future.microtask(() => expenseViewModel.loadExpenses()),
+        future: Future.microtask(() => expenseViewModel.getAllUsedCategories()),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error loading expenses'));
+            return Center(child: Text('Error loading'));
           } else {
             return Consumer<ExpenseViewModel>(
               builder: (context, expenseViewModel, child) {
                 return ListView.builder(
-                  itemCount: expenseViewModel.expenses.length,
+                  itemCount: expenseViewModel.categories.length,
                   itemBuilder: (context, index) {
-                    final expense = expenseViewModel.expenses[index];
-                    return ListTile(
-                      title: Text(expense.name),
-                      subtitle: Text('${expense.amount}'),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
+                    final category = expenseViewModel.categories[index];
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
                         onPressed: () {
-                          expenseViewModel.deleteExpense(expense.id);
-                        }
+                          GoRouter.of(context).go('/by_category/${category.name}');
+                        },
+                        child: Text(category.name)
                       ),
                     );
                   },

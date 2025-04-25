@@ -19,6 +19,12 @@ class AddExpenseScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Expense'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            context.go('/');
+          },
+        ),
       ),
       body: FutureBuilder(
         future: Future.microtask(() => categoryViewModel.loadCategories()),
@@ -74,7 +80,7 @@ class AddExpenseScreen extends StatelessWidget {
                                   amount: amount,
                                   date: DateTime.now(),
                                   category: Category(name: 'Транспорт'),
-                                )
+                                ),
                               );
 
                               context.go('/');
