@@ -11,8 +11,6 @@ class ExpensesByCategoryScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final expenseViewModel = Provider.of<ExpenseViewModel>(context, listen: false);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(category_name),
@@ -23,17 +21,29 @@ class ExpensesByCategoryScreen extends StatelessWidget{
           },
         ),
       ),
-      body: FutureBuilder(
-        future: Future.microtask(() => expenseViewModel.loadExpenses()),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error loading'));
-          } else {
-            return Text('Expenses');
-          }
-        }
+      body: Consumer<ExpenseViewModel>(
+        builder: (context, expenseViewModel, child) {
+          return ListView.builder(
+            itemCount: expenseViewModel.expensesByCategory.length,
+            itemBuilder: (context, index) {
+              final expense = expenseViewModel.expensesByCategory[index];
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  title: Text(expense.name),
+                  subtitle: Text('Сумма - ${expense.amount}'),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      expenseViewModel.deleteExpense(expense.id);
+                      expenseViewModel.getExpensesByCategory(category_name);
+                    },
+                  ),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }

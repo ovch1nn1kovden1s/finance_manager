@@ -12,9 +12,9 @@ class ExpenseRepository {
     return expenses;
   }
 
-  List<Expense> getExpensesByCategory(Category category) {
+  List<Expense> getExpensesByCategory(String category) {
     List<Expense> expenses = expenseBox.values
-        .where((expense) => expense.category == category)
+        .where((expense) => expense.category.name == category)
         .toList();
     return expenses;
   }

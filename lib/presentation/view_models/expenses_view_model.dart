@@ -7,11 +7,13 @@ class ExpenseViewModel extends ChangeNotifier {
   final ExpenseRepository repository;
   List<Expense> _expenses = [];
   List<Category> _categories = [];
+  List<Expense> _expensesByCategory = [];
 
   ExpenseViewModel(this.repository);
 
   List<Expense> get expenses => _expenses;
   List<Category> get categories => _categories;
+  List<Expense> get expensesByCategory => _expensesByCategory;
 
   void loadExpenses() {
     _expenses = repository.getAllExpenses();
@@ -23,8 +25,9 @@ class ExpenseViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getExpensesByCategory(Category category) {
-    repository.getExpensesByCategory(category);
+  void getExpensesByCategory(String category) {
+    _expensesByCategory = repository.getExpensesByCategory(category);
+    notifyListeners();
   }
 
   Future<void> addOrUpdateExpense(Expense expense) async {
@@ -33,5 +36,6 @@ class ExpenseViewModel extends ChangeNotifier {
 
   Future<void> deleteExpense(String id) async {
     await repository.deleteExpense(id);
+    notifyListeners();
   }
 }

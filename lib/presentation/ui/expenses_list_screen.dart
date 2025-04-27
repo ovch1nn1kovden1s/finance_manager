@@ -30,6 +30,7 @@ class ExpensesListScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
                         onPressed: () {
+                          expenseViewModel.getExpensesByCategory(category.name);
                           GoRouter.of(context).go('/by_category/${category.name}');
                         },
                         child: Text(category.name)
