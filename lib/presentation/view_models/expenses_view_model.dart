@@ -1,18 +1,17 @@
 import 'package:finance_manger/data/repositories/expense_repository.dart';
-import 'package:finance_manger/models/category.dart';
 import 'package:flutter/material.dart';
 import '../../models/expense.dart';
 
 class ExpenseViewModel extends ChangeNotifier {
   final ExpenseRepository repository;
   List<Expense> _expenses = [];
-  List<Category> _categories = [];
+  List<String> _categories = [];
   List<Expense> _expensesByCategory = [];
 
   ExpenseViewModel(this.repository);
 
   List<Expense> get expenses => _expenses;
-  List<Category> get categories => _categories;
+  List<String> get categories => _categories;
   List<Expense> get expensesByCategory => _expensesByCategory;
 
   void loadExpenses() {

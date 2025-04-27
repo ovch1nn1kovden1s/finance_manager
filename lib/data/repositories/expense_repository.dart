@@ -1,6 +1,5 @@
 import 'package:hive/hive.dart';
 import '../../models/expense.dart';
-import '../../models/category.dart';
 
 class ExpenseRepository {
   final Box<Expense> expenseBox;
@@ -19,12 +18,8 @@ class ExpenseRepository {
     return expenses;
   }
 
-  List<Category> getAllUsedCategories() {
-    List<Category> categories =  [];
-    var categoriesSet = expenseBox.values.map((expense) => expense.category.name).toSet().toList();
-    for (String category in categoriesSet) {
-      categories.add(Category(name: category));
-    }
+  List<String> getAllUsedCategories() {
+    List<String> categories = expenseBox.values.map((expense) => expense.category.name).toSet().toList();
     return categories;
   }
 
