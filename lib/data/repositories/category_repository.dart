@@ -12,8 +12,11 @@ class CategoryRepository {
   }
 
   Future<void> addCategory(Category category) async {
-    await categoryBox.put(category.name, category);
+  if (categoryBox.containsKey(category.name)) {
+    return;
   }
+  await categoryBox.put(category.name, category);
+}
 
   Future<void> initDefaultCategories() async {
     List<String> defaultCategories = ['Транспорт', 'Еда', 'Развлечения', 'Здоровье'];

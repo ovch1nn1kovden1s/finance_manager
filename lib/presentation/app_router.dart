@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'ui/expenses_list_screen.dart';
 import 'ui/add_expense_screen.dart';
 import 'ui/expenses_by_category_screen.dart';
+import 'ui/add_category_screen.dart';
 
 final GoRouter router = GoRouter(
   routes: [
@@ -19,6 +20,10 @@ final GoRouter router = GoRouter(
         final String category_name = state.pathParameters['category_name']!;
         return ExpensesByCategoryScreen(category_name: category_name);
       },
-    )
+    ),
+    GoRoute(
+      path: '/add_category',
+      builder: (context, state) => AddCategoryScreen(),
+    ),
   ],
 );

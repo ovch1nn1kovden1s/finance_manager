@@ -10,7 +10,6 @@ import 'package:uuid/uuid.dart';
 class AddExpenseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final categoryViewModel = Provider.of<CategoryViewModel>(context, listen: false);
     final expenseViewModel = Provider.of<ExpenseViewModel>(context, listen: false);
     final _formKey = GlobalKey<FormState>();
     final _nameController = TextEditingController();
@@ -48,14 +47,24 @@ class AddExpenseScreen extends StatelessWidget {
                   DropdownButtonFormField<Category>(
                     decoration: InputDecoration(labelText: 'Выберите категорию'),
                     value: _selectedCategory,
-                    items: categoryViewModel.categories.map((category) {
-                      return DropdownMenuItem<Category>(
-                        value: category,
-                        child: Text(category.name),
-                      );
-                    }).toList(),
+                    items: [
+                      ...categoryViewModel.categories.map((category) {
+                        return DropdownMenuItem<Category>(
+                          value: category,
+                          child: Text(category.name),
+                        );
+                      }).toList(),
+                      DropdownMenuItem<Category>(
+                        value: Category(name: 'addNewCategory'),
+                        child: Text('Добавить категорию'),
+                      ),
+                    ],
                     onChanged: (newValue) {
-                      _selectedCategory = newValue;
+                      if (newValue?.name == 'addNewCategory') {
+                        context.go('/add_category');
+                      } else {
+                        _selectedCategory = newValue;
+                      }
                     },
                     validator: (value) {
                       if (value == null) {
