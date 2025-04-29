@@ -7,12 +7,14 @@ class ExpenseViewModel extends ChangeNotifier {
   List<Expense> _expenses = [];
   List<String> _categories = [];
   List<Expense> _expensesByCategory = [];
+  DateTime _currentScreenDateTime = DateTime.now();
 
   ExpenseViewModel(this.repository);
 
   List<Expense> get expenses => _expenses;
   List<String> get categories => _categories;
   List<Expense> get expensesByCategory => _expensesByCategory;
+  DateTime get currentScreenDateTime => _currentScreenDateTime;
 
   void notify() {
     notifyListeners();
@@ -37,8 +39,18 @@ class ExpenseViewModel extends ChangeNotifier {
     return repository.getTotalExpensesByCategory(category);
   }
 
-  double getTotalExpenses() {
-    return repository.getTotalExpenses();
+  void setScreenDateTime(int i) {
+    _currentScreenDateTime = repository.setScreenDateTime(_currentScreenDateTime, i);
+    notifyListeners();
+  }
+
+  String getNormalDate() {
+    String normalDate = repository.getNormalDate(_currentScreenDateTime);
+    return normalDate;
+  }
+
+  double getTotalExpensesByDate() {
+    return repository.getTotalExpensesByDate(_currentScreenDateTime);
   }
 
   Future<void> addOrUpdateExpense(Expense expense) async {

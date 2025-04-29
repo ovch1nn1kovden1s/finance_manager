@@ -26,7 +26,36 @@ class ExpensesListScreen extends StatelessWidget {
               builder: (context, expenseViewModel, child) {
                 return Column(
                   children: <Widget>[
-                    Text('${expenseViewModel.getTotalExpenses()}'),
+                    Container(
+                      color: const Color(0xFF67FA8E),
+                      padding: EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: Column(
+                        children: [
+                          Text(expenseViewModel.getNormalDate()),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.arrow_left),
+                                onPressed: () {
+                                  expenseViewModel.setScreenDateTime(-1);
+                                },
+                              ),
+                              Spacer(),
+                              IconButton(
+                                icon: Icon(Icons.arrow_right),
+                                onPressed: () {
+                                  expenseViewModel.setScreenDateTime(1);
+                                },
+                              )
+                            ],
+                          ),
+                          Text('${expenseViewModel.getTotalExpensesByDate()}')
+                        ],
+                      )
+                    ),
+                    SizedBox(height: 20,),
                     Expanded(
                       child: ListView.builder(
                         itemCount: expenseViewModel.categories.length,

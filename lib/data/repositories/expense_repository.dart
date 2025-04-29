@@ -18,18 +18,17 @@ class ExpenseRepository {
     return expenses;
   }
 
-  List<String> getCategoriesForCurrentMonth() {
-    DateTime now = DateTime.now();
-    return expenseBox.values
-        .where((expense) => expense.date.year == now.year && expense.date.month == now.month)
-        .map((expense) => expense.category.name)
-        .toSet()
-        .toList();
-  }
-
   List<String> getAllUsedCategories() {
     List<String> categories = expenseBox.values.map((expense) => expense.category.name).toSet().toList();
     return categories;
+  }
+
+  List<String> getCategoriesByMonth(DateTime date) {
+    return expenseBox.values
+        .where((expense) => expense.date.year == date.year && expense.date.month == date.month)
+        .map((expense) => expense.category.name)
+        .toSet()
+        .toList();
   }
 
   double getTotalExpensesByCategory(String category) {
@@ -38,8 +37,35 @@ class ExpenseRepository {
         .fold(0.0, (sum, expense) => sum + expense.amount);
   }
 
-  double getTotalExpenses() {
+  DateTime setScreenDateTime(DateTime currentDate, int i) {
+    int year = currentDate.year;
+    int month = currentDate.month + i;
+    
+    if (month < 1) {
+      month = 12;
+      year -= 1;
+    }
+    if (month > 12) {
+      month = 1;
+      year += 1;
+    }
+
+    return DateTime(year, month, 1);
+  }
+
+  String getNormalDate(DateTime date) {
+    List<String> monthNames = [
+      'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+    ];
+
+    String normalDate = '${monthNames[date.month - 1]} ${date.year}';
+    return normalDate;
+  }
+
+  double getTotalExpensesByDate(DateTime date) {
     return expenseBox.values
+        .where((expense) => expense.date.month == date.month && expense.date.year == date.year)
         .fold(0.0, (sum, expense) => sum + expense.amount);
   }
 
