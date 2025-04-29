@@ -38,6 +38,11 @@ class ExpenseRepository {
         .fold(0.0, (sum, expense) => sum + expense.amount);
   }
 
+  double getTotalExpenses() {
+    return expenseBox.values
+        .fold(0.0, (sum, expense) => sum + expense.amount);
+  }
+
   Future<void> addOrUpdateExpense(Expense expense) async {
     await expenseBox.put(expense.id, expense);
   }

@@ -24,27 +24,34 @@ class ExpensesListScreen extends StatelessWidget {
           } else {
             return Consumer<ExpenseViewModel>(
               builder: (context, expenseViewModel, child) {
-                return ListView.builder(
-                  itemCount: expenseViewModel.categories.length,
-                  itemBuilder: (context, index) {
-                    final category = expenseViewModel.categories[index];
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          expenseViewModel.getExpensesByCategory(category);
-                          GoRouter.of(context).go('/by_category/${category}');
+                return Column(
+                  children: <Widget>[
+                    Text('${expenseViewModel.getTotalExpenses()}'),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: expenseViewModel.categories.length,
+                        itemBuilder: (context, index) {
+                          final category = expenseViewModel.categories[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                expenseViewModel.getExpensesByCategory(category);
+                                GoRouter.of(context).go('/by_category/${category}');
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(category),
+                                  Text('${expenseViewModel.getTotalExpensesByCategory(category)}'),
+                                ],
+                              ),
+                            ),
+                          );
                         },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(category),
-                            Text('${expenseViewModel.getTotalExpensesByCategory(category)}'),
-                          ],
-                        ),
-                      )
-                    );
-                  },
+                      ),
+                    ),
+                  ],
                 );
               },
             );

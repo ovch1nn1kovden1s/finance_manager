@@ -10,6 +10,10 @@ class CategoryViewModel extends ChangeNotifier {
 
   List<Category> get categories => _categories;
 
+  void notify() {
+    notifyListeners();
+  }
+
   void loadCategories() {
     _categories = repository.getAllCategories();
     notifyListeners();
@@ -18,6 +22,11 @@ class CategoryViewModel extends ChangeNotifier {
   Future<void> addCategory(Category category) async {
     await repository.addCategory(category);
     loadCategories();
+  }
+
+  Future<void> deleteCategory(String name) async {
+    await repository.deleteCategory(name);
+    notifyListeners();
   }
 
   Future<void> initDefaultCategories() async {

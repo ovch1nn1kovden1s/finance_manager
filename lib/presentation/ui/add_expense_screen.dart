@@ -44,35 +44,6 @@ class AddExpenseScreen extends StatelessWidget {
                       return null;
                     },
                   ),
-                  DropdownButtonFormField<Category>(
-                    decoration: InputDecoration(labelText: 'Выберите категорию'),
-                    value: _selectedCategory,
-                    items: [
-                      ...categoryViewModel.categories.map((category) {
-                        return DropdownMenuItem<Category>(
-                          value: category,
-                          child: Text(category.name),
-                        );
-                      }).toList(),
-                      DropdownMenuItem<Category>(
-                        value: Category(name: 'addNewCategory'),
-                        child: Text('Добавить категорию'),
-                      ),
-                    ],
-                    onChanged: (newValue) {
-                      if (newValue?.name == 'addNewCategory') {
-                        context.go('/add_category');
-                      } else {
-                        _selectedCategory = newValue;
-                      }
-                    },
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Пожалуйста, выберите категорию';
-                      }
-                      return null;
-                    },
-                  ),
                   TextFormField(
                     controller: _amountController,
                     decoration: InputDecoration(labelText: 'Amount'),
@@ -86,6 +57,47 @@ class AddExpenseScreen extends StatelessWidget {
                       }
                       return null;
                     },
+                  ),
+                  SizedBox(height: 20),
+                  PopupMenuButton<Category>(
+                    onSelected: (category) {
+                      if (category.name == 'addNewCategory') {
+                        context.go('/add_category');
+                      } else {
+                        _selectedCategory = category;
+                        categoryViewModel.notify();
+                      }
+                    },
+                    itemBuilder: (context) {
+                      return [
+                        ...categoryViewModel.categories.map((category) {
+                          return PopupMenuItem<Category>(
+                            value: category,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(category.name),
+                                IconButton(
+                                  icon: Icon(Icons.delete),
+                                  onPressed: () {
+                                    categoryViewModel.deleteCategory(category.name);
+                                    categoryViewModel.loadCategories();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                        PopupMenuItem<Category>(
+                          value: Category(name: 'addNewCategory'),
+                          child: Text('Добавить категорию'),
+                        ),
+                      ];
+                    },
+                    child: ListTile(
+                      title: Text(_selectedCategory?.name ?? 'Выберите категорию'),
+                    ),
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
