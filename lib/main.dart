@@ -1,7 +1,7 @@
-import 'package:finance_manger/data/repositories/category_repository.dart';
-import 'package:finance_manger/data/repositories/expense_repository.dart';
-import 'package:finance_manger/presentation/view_models/category_view_model.dart';
-import 'package:finance_manger/presentation/view_models/expenses_view_model.dart';
+import '../../data/repositories/category_repository.dart';
+import '../../data/repositories/expense_repository.dart';
+import '../../presentation/view_models/category_view_model.dart';
+import '../../presentation/view_models/expenses_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'presentation/app_router.dart';

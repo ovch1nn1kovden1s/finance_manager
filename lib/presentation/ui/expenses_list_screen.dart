@@ -1,4 +1,5 @@
-import 'package:finance_manger/presentation/view_models/expenses_view_model.dart';
+import '../../presentation/view_models/category_view_model.dart';
+import '../../presentation/view_models/expenses_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ class ExpensesListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final expenseViewModel = Provider.of<ExpenseViewModel>(context, listen: false);
+    final categoryViewModel = Provider.of<CategoryViewModel>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -45,6 +47,7 @@ class ExpensesListScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          categoryViewModel.loadCategories();
           context.go('/add');
         },
         child: const Icon(Icons.add),

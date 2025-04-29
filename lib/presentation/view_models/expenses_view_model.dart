@@ -1,4 +1,4 @@
-import 'package:finance_manger/data/repositories/expense_repository.dart';
+import '../../data/repositories/expense_repository.dart';
 import 'package:flutter/material.dart';
 import '../../models/expense.dart';
 

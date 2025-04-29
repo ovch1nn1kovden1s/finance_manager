@@ -1,4 +1,4 @@
-import 'package:finance_manger/data/repositories/category_repository.dart';
+import '../../data/repositories/category_repository.dart';
 import 'package:flutter/material.dart';
 import '../../models/category.dart';
 
