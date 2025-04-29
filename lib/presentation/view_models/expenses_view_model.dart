@@ -29,6 +29,10 @@ class ExpenseViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  double getTotalExpensesByCategory(String category) {
+    return repository.getTotalExpensesByCategory(category);
+  } 
+
   Future<void> addOrUpdateExpense(Expense expense) async {
     await repository.addOrUpdateExpense(expense);
   }

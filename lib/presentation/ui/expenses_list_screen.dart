@@ -35,8 +35,14 @@ class ExpensesListScreen extends StatelessWidget {
                           expenseViewModel.getExpensesByCategory(category);
                           GoRouter.of(context).go('/by_category/${category}');
                         },
-                        child: Text(category)
-                      ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(category),
+                            Text('${expenseViewModel.getTotalExpensesByCategory(category)}'),
+                          ],
+                        ),
+                      )
                     );
                   },
                 );

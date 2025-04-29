@@ -18,9 +18,24 @@ class ExpenseRepository {
     return expenses;
   }
 
+  List<String> getCategoriesForCurrentMonth() {
+    DateTime now = DateTime.now();
+    return expenseBox.values
+        .where((expense) => expense.date.year == now.year && expense.date.month == now.month)
+        .map((expense) => expense.category.name)
+        .toSet()
+        .toList();
+  }
+
   List<String> getAllUsedCategories() {
     List<String> categories = expenseBox.values.map((expense) => expense.category.name).toSet().toList();
     return categories;
+  }
+
+  double getTotalExpensesByCategory(String category) {
+    return expenseBox.values
+        .where((expense) => expense.category.name == category)
+        .fold(0.0, (sum, expense) => sum + expense.amount);
   }
 
   Future<void> addOrUpdateExpense(Expense expense) async {
