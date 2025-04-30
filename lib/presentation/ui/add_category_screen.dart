@@ -9,11 +9,10 @@ class AddCategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
     final _categoryController = TextEditingController();
-    final categoryViewModel = Provider.of<CategoryViewModel>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add category'),
+        title: Text('Категории'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -21,38 +20,70 @@ class AddCategoryScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                controller: _categoryController,
-                decoration: InputDecoration(labelText: 'Category Name'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a category name';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    final categoryName = _categoryController.text;
+      body: Consumer<CategoryViewModel>(
+        builder: (context, categoryViewModel, child) {
+          return Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      Text('Добавить категорию'),
+                      TextFormField(
+                        controller: _categoryController,
+                        decoration: InputDecoration(labelText: 'Имя категории'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Пожалуйста, введите категорию';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            final categoryName = _categoryController.text;
 
-                    categoryViewModel.addCategory(Category(name: categoryName));
-                    context.go('/add');
-                  }
-                },
-                child: Text('Add Category'),
-              ),
-            ],
-          ),
-        ),
-      ),
+                            categoryViewModel.addCategory(Category(name: categoryName));
+                            context.go('/add');
+                          }
+                        },
+                        child: Text('Добавить'),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 40,),
+                Text('Категории'),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: categoryViewModel.categories.length,
+                    itemBuilder: (context, index) {
+                    final category = categoryViewModel.categories[index];
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(category.name),
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {
+                              categoryViewModel.deleteCategory(category.name);
+                              categoryViewModel.loadCategories();
+                            },
+                          )
+                        ]
+                      );
+                    }
+                  ),
+                ),
+              ],
+            )
+          );
+        }
+      )
     );
   }
 }

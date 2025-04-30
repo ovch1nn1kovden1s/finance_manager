@@ -24,9 +24,9 @@ class ExpensesByCategoryScreen extends StatelessWidget{
       body: Consumer<ExpenseViewModel>(
         builder: (context, expenseViewModel, child) {
           return ListView.builder(
-            itemCount: expenseViewModel.expensesByCategory.length,
+            itemCount: expenseViewModel.expensesByCategoryAndMonth.length,
             itemBuilder: (context, index) {
-              final expense = expenseViewModel.expensesByCategory[index];
+              final expense = expenseViewModel.expensesByCategoryAndMonth[index];
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
@@ -36,7 +36,7 @@ class ExpensesByCategoryScreen extends StatelessWidget{
                     icon: const Icon(Icons.delete),
                     onPressed: () {
                       expenseViewModel.deleteExpense(expense.id);
-                      expenseViewModel.getExpensesByCategory(category_name);
+                      expenseViewModel.getExpensesByCategoryAndMonth(category_name);
                     },
                   ),
                 ),

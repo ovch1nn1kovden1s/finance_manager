@@ -31,6 +31,19 @@ class ExpenseRepository {
         .toList();
   }
 
+  List<Expense> getExpensesByCategoryAndMonth(String category, DateTime date) {
+    List<Expense> expenses = expenseBox.values
+        .where((expense) => expense.category.name == category && expense.date.year == date.year && expense.date.month == date.month)
+        .toList();
+    return expenses;
+  }
+
+  double getTotalExpensesByCategoryAndMonth(String category, DateTime date) {
+    return expenseBox.values
+        .where((expense) => expense.category.name == category && expense.date.year == date.year && expense.date.month == date.month)
+        .fold(0.0, (sum, expense) => sum + expense.amount);
+  }
+
   double getTotalExpensesByCategory(String category) {
     return expenseBox.values
         .where((expense) => expense.category.name == category)

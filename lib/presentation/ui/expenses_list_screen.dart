@@ -15,7 +15,7 @@ class ExpensesListScreen extends StatelessWidget {
         title: Text('Expenses'),
       ),
       body: FutureBuilder(
-        future: Future.microtask(() => expenseViewModel.getAllUsedCategories()),
+        future: Future.microtask(() => expenseViewModel.getCategoriesByMonth()),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -40,6 +40,7 @@ class ExpensesListScreen extends StatelessWidget {
                                 icon: Icon(Icons.arrow_left),
                                 onPressed: () {
                                   expenseViewModel.setScreenDateTime(-1);
+                                  expenseViewModel.getCategoriesByMonth();
                                 },
                               ),
                               Spacer(),
@@ -47,32 +48,45 @@ class ExpensesListScreen extends StatelessWidget {
                                 icon: Icon(Icons.arrow_right),
                                 onPressed: () {
                                   expenseViewModel.setScreenDateTime(1);
+                                  expenseViewModel.getCategoriesByMonth();
                                 },
                               )
                             ],
                           ),
-                          Text('${expenseViewModel.getTotalExpensesByDate()}')
+                          Text('${expenseViewModel.getTotalExpensesByDate()}'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.add),
+                                onPressed: () {
+                                  categoryViewModel.loadCategories();
+                                  context.go('/add');
+                                },
+                              ),
+                            ],
+                          ),
                         ],
                       )
                     ),
                     SizedBox(height: 20,),
                     Expanded(
                       child: ListView.builder(
-                        itemCount: expenseViewModel.categories.length,
+                        itemCount: expenseViewModel.categoriesbyMonth.length,
                         itemBuilder: (context, index) {
-                          final category = expenseViewModel.categories[index];
+                          final category = expenseViewModel.categoriesbyMonth[index];
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
                               onPressed: () {
-                                expenseViewModel.getExpensesByCategory(category);
+                                expenseViewModel.getExpensesByCategoryAndMonth(category);
                                 GoRouter.of(context).go('/by_category/${category}');
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(category),
-                                  Text('${expenseViewModel.getTotalExpensesByCategory(category)}'),
+                                  Text('${expenseViewModel.getTotalExpensesByCategoryAndMonth(category)}'),
                                 ],
                               ),
                             ),
@@ -86,13 +100,6 @@ class ExpensesListScreen extends StatelessWidget {
             );
           }
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          categoryViewModel.loadCategories();
-          context.go('/add');
-        },
-        child: const Icon(Icons.add),
       ),
     );
   }

@@ -8,6 +8,9 @@ class ExpenseViewModel extends ChangeNotifier {
   List<String> _categories = [];
   List<Expense> _expensesByCategory = [];
   DateTime _currentScreenDateTime = DateTime.now();
+  List<String> _categoriesbyMonth = [];
+  List<Expense> _expensesByCategoryAndMonth = [];
+  bool _isDateVisible = true;
 
   ExpenseViewModel(this.repository);
 
@@ -15,8 +18,16 @@ class ExpenseViewModel extends ChangeNotifier {
   List<String> get categories => _categories;
   List<Expense> get expensesByCategory => _expensesByCategory;
   DateTime get currentScreenDateTime => _currentScreenDateTime;
+  List<String> get categoriesbyMonth => _categoriesbyMonth;
+  List<Expense> get expensesByCategoryAndMonth => _expensesByCategoryAndMonth;
+  bool get isDateVisible => _isDateVisible;
 
   void notify() {
+    notifyListeners();
+  }
+
+  void changeDateVisible() {
+    _isDateVisible = !_isDateVisible;
     notifyListeners();
   }
 
@@ -39,6 +50,10 @@ class ExpenseViewModel extends ChangeNotifier {
     return repository.getTotalExpensesByCategory(category);
   }
 
+  double getTotalExpensesByCategoryAndMonth(String category) {
+    return repository.getTotalExpensesByCategoryAndMonth(category, _currentScreenDateTime);
+  }
+
   void setScreenDateTime(int i) {
     _currentScreenDateTime = repository.setScreenDateTime(_currentScreenDateTime, i);
     notifyListeners();
@@ -49,12 +64,21 @@ class ExpenseViewModel extends ChangeNotifier {
     return normalDate;
   }
 
+  void getCategoriesByMonth() {
+    _categoriesbyMonth = repository.getCategoriesByMonth(_currentScreenDateTime);
+  }
+
   double getTotalExpensesByDate() {
     return repository.getTotalExpensesByDate(_currentScreenDateTime);
   }
 
   Future<void> addOrUpdateExpense(Expense expense) async {
     await repository.addOrUpdateExpense(expense);
+  }
+
+  void getExpensesByCategoryAndMonth(String category) {
+    _expensesByCategoryAndMonth = repository.getExpensesByCategoryAndMonth(category, _currentScreenDateTime);
+    notifyListeners();
   }
 
   Future<void> deleteExpense(String id) async {
