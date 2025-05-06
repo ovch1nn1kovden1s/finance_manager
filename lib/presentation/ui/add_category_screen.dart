@@ -47,7 +47,7 @@ class AddCategoryScreen extends StatelessWidget {
                           if (_formKey.currentState!.validate()) {
                             final categoryName = _categoryController.text;
 
-                            categoryViewModel.addCategory(Category(name: categoryName));
+                            categoryViewModel.addCategory(Category(name: categoryName, color: categoryViewModel.generateRandomColor()));
                             context.go('/add');
                           }
                         },

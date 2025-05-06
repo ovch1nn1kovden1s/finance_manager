@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import '../../models/expense.dart';
+import '../../models/category.dart';
 
 class ExpenseRepository {
   final Box<Expense> expenseBox;
@@ -23,10 +24,10 @@ class ExpenseRepository {
     return categories;
   }
 
-  List<String> getCategoriesByMonth(DateTime date) {
+  List<Category> getCategoriesByMonth(DateTime date) {
     return expenseBox.values
         .where((expense) => expense.date.year == date.year && expense.date.month == date.month)
-        .map((expense) => expense.category.name)
+        .map((expense) => expense.category)
         .toSet()
         .toList();
   }

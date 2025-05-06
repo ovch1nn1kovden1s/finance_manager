@@ -1,6 +1,7 @@
 import '../../data/repositories/category_repository.dart';
 import 'package:flutter/material.dart';
 import '../../models/category.dart';
+import 'dart:math';
 
 class CategoryViewModel extends ChangeNotifier {
   final CategoryRepository repository;
@@ -10,8 +11,12 @@ class CategoryViewModel extends ChangeNotifier {
 
   List<Category> get categories => _categories;
 
-  void notify() {
-    notifyListeners();
+  int generateRandomColor() {
+    final Random random = Random();
+    return (0xFF << 24) |
+          (random.nextInt(256) << 16) |
+          (random.nextInt(256) << 8) |
+          random.nextInt(256);
   }
 
   void loadCategories() {

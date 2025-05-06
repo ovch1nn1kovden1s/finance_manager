@@ -74,7 +74,6 @@ class AddExpenseScreen extends StatelessWidget {
                           context.go('/add_category');
                         } else {
                           _selectedCategory = category;
-                          categoryViewModel.notify();
                         }
                       }
                     },
@@ -86,7 +85,7 @@ class AddExpenseScreen extends StatelessWidget {
                         );
                       }).toList(),
                       DropdownMenuItem<Category>(
-                        value: Category(name: 'addNewCategory'),
+                        value: Category(name: 'addNewCategory', color: 0xFF000000),
                         child: Text('Редактировать категории'),
                       ),
                     ],

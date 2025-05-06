@@ -1,6 +1,7 @@
 import '../../data/repositories/expense_repository.dart';
 import 'package:flutter/material.dart';
 import '../../models/expense.dart';
+import '../../models/category.dart';
 
 class ExpenseViewModel extends ChangeNotifier {
   final ExpenseRepository repository;
@@ -8,7 +9,7 @@ class ExpenseViewModel extends ChangeNotifier {
   List<String> _categories = [];
   List<Expense> _expensesByCategory = [];
   DateTime _currentScreenDateTime = DateTime.now();
-  List<String> _categoriesbyMonth = [];
+  List<Category> _categoriesbyMonth = [];
   List<Expense> _expensesByCategoryAndMonth = [];
   bool _isDateVisible = true;
 
@@ -18,13 +19,9 @@ class ExpenseViewModel extends ChangeNotifier {
   List<String> get categories => _categories;
   List<Expense> get expensesByCategory => _expensesByCategory;
   DateTime get currentScreenDateTime => _currentScreenDateTime;
-  List<String> get categoriesbyMonth => _categoriesbyMonth;
+  List<Category> get categoriesbyMonth => _categoriesbyMonth;
   List<Expense> get expensesByCategoryAndMonth => _expensesByCategoryAndMonth;
   bool get isDateVisible => _isDateVisible;
-
-  void notify() {
-    notifyListeners();
-  }
 
   void changeDateVisible() {
     _isDateVisible = !_isDateVisible;

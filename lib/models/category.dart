@@ -6,8 +6,11 @@ part 'category.g.dart';
 class Category {
   @HiveField(0)
   String name;
+  @HiveField(1)
+  int color;
 
   Category({
     required this.name,
+    required this.color,
   });
 }

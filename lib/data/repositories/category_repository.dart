@@ -23,10 +23,15 @@ class CategoryRepository {
   }
 
   Future<void> initDefaultCategories() async {
-    List<String> defaultCategories = ['Транспорт', 'Еда', 'Развлечения', 'Здоровье'];
-    for (var categoryName in defaultCategories) {
-      if (categoryBox.get(categoryName) == null) {
-        await addCategory(Category(name: categoryName));
+    List<Category> defaultCategories = [
+      Category(name: 'Транспорт', color: 0xFF0000FF),
+      Category(name: 'Еда', color: 0xFF09AC09),
+      Category(name: 'Развлечения', color: 0xFFFFA500),
+      Category(name: 'Здоровье', color: 0xFFFF0000)
+    ];
+    for (var category in defaultCategories) {
+      if (categoryBox.get(category.name) == null) {
+        await addCategory(category);
       }
     }
   }
