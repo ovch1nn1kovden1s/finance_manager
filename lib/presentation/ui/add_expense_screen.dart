@@ -19,14 +19,23 @@ class AddExpenseScreen extends StatelessWidget {
     final _dayController = TextEditingController();
 
     return Scaffold(
+      backgroundColor: const Color(0xFFF2F8F2),
       appBar: AppBar(
-        title: Text('Добавление траты'),
+        title: Text(
+          'Добавление траты',
+          style: TextStyle(
+            color: const Color(0xFF68C060),
+            fontSize: 20,
+          ),
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
+          color: const Color(0xFF68C060),
           onPressed: () {
             context.go('/');
           },
         ),
+        backgroundColor: const Color(0xFF1E5319),
       ),
       body: Consumer2<CategoryViewModel, ExpenseViewModel>(
         builder: (context, categoryViewModel, expenseViewModel, child) {
@@ -40,7 +49,14 @@ class AddExpenseScreen extends StatelessWidget {
                     height: 70,
                     child: TextFormField(
                       controller: _nameController,
-                      decoration: InputDecoration(labelText: 'Название траты'),
+                      cursorColor: const Color(0xFF1E5319),
+                      decoration: InputDecoration(
+                        labelText: 'Название траты',
+                        labelStyle: TextStyle(color: const Color(0xFF1E5319)),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: const Color(0xFF1E5319)),
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Пожалуйста, введите название траты';
@@ -53,7 +69,14 @@ class AddExpenseScreen extends StatelessWidget {
                     height: 70,
                     child: TextFormField(
                       controller: _amountController,
-                      decoration: InputDecoration(labelText: 'Сумма'),
+                      cursorColor: const Color(0xFF1E5319),
+                      decoration: InputDecoration(
+                        labelText: 'Сумма',
+                        labelStyle: TextStyle(color: const Color(0xFF1E5319)),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: const Color(0xFF1E5319)),
+                        ),
+                      ),
                       keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -86,20 +109,37 @@ class AddExpenseScreen extends StatelessWidget {
                       }).toList(),
                       DropdownMenuItem<Category>(
                         value: Category(name: 'addNewCategory', color: 0xFF000000),
-                        child: Text('Редактировать категории'),
+                        child: Text(
+                          'Редактировать категории',
+                          style: TextStyle(color: const Color(0xFF000000)),
+                        ),
                       ),
                     ],
                     decoration: InputDecoration(
                       labelText: 'Выберите категорию',
+                      labelStyle: TextStyle(color: const Color(0xFF1E5319)),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: const Color(0xFF1E5319)),
+                      ),
                     ),
+                    style: TextStyle(
+                      color: const Color(0xFF1E5319),
+                    ),
+                    dropdownColor: const Color(0xFFF2F8F2),
                   ),
                   SizedBox(height: 20),
                   CheckboxListTile(
-                    title: Text('Использовать текущую дату'),
+                    title: Text(
+                      'Использовать текущую дату',
+                      style: TextStyle(
+                        color: const Color(0xFF1E5319),
+                      ),
+                    ),
                     value: expenseViewModel.isDateVisible,
                     onChanged: (bool? value) {
                       expenseViewModel.changeDateVisible();
                     },
+                    activeColor: Color(0xFF1E5319),
                   ),
                   if (!expenseViewModel.isDateVisible) ...[
                     Row(
@@ -107,7 +147,14 @@ class AddExpenseScreen extends StatelessWidget {
                         Expanded(
                           child: TextFormField(
                             controller: _dayController,
-                            decoration: InputDecoration(labelText: 'День'),
+                            cursorColor: const Color(0xFF1E5319),
+                            decoration: InputDecoration(
+                              labelText: 'День',
+                              labelStyle: TextStyle(color: const Color(0xFF1E5319)),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: const Color(0xFF1E5319)),
+                              ),
+                            ),
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -127,7 +174,14 @@ class AddExpenseScreen extends StatelessWidget {
                         Expanded(
                           child: TextFormField(
                             controller: _monthController,
-                            decoration: InputDecoration(labelText: 'Месяц'),
+                            cursorColor: const Color(0xFF1E5319),
+                            decoration: InputDecoration(
+                              labelText: 'Месяц',
+                              labelStyle: TextStyle(color: const Color(0xFF1E5319)),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: const Color(0xFF1E5319)),
+                              ),
+                            ),
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -147,7 +201,14 @@ class AddExpenseScreen extends StatelessWidget {
                         Expanded(
                           child: TextFormField(
                             controller: _yearController,
-                            decoration: InputDecoration(labelText: 'Год'),
+                            cursorColor: const Color(0xFF1E5319),
+                            decoration: InputDecoration(
+                              labelText: 'Год',
+                              labelStyle: TextStyle(color: const Color(0xFF1E5319)),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: const Color(0xFF1E5319)),
+                              ),
+                            ),
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -165,6 +226,13 @@ class AddExpenseScreen extends StatelessWidget {
                   ],
                   SizedBox(height: 20),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF1E5319),
+                      padding: EdgeInsets.all(22.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                    ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         final name = _nameController.text;
@@ -199,7 +267,12 @@ class AddExpenseScreen extends StatelessWidget {
                         context.go('/');
                       }
                     },
-                    child: Text('Добавить'),
+                    child: Text(
+                      'Добавить',
+                      style: TextStyle(
+                      color: Color(0xFFF2F8F2),
+                      ),
+                    ),
                   ),
                 ],
               ),

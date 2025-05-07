@@ -98,6 +98,8 @@ class ExpensesListScreen extends StatelessWidget {
                                         return PieChartSectionData(
                                           color: Color(category.color),
                                           radius: 40,
+                                          value: expenseViewModel.getTotalExpensesByCategory(category.name),
+                                          showTitle: false,
                                         );
                                       }).toList(),
                                     ),
@@ -144,7 +146,7 @@ class ExpensesListScreen extends StatelessWidget {
                                 ),
                                 onPressed: () {
                                   expenseViewModel.getExpensesByCategoryAndMonth(category.name);
-                                  GoRouter.of(context).go('/by_category/${category}');
+                                  GoRouter.of(context).go('/by_category/${category.name}');
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
