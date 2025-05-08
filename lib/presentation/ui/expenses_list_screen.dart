@@ -98,7 +98,7 @@ class ExpensesListScreen extends StatelessWidget {
                                         return PieChartSectionData(
                                           color: Color(category.color),
                                           radius: 40,
-                                          value: expenseViewModel.getTotalExpensesByCategory(category.name),
+                                          value: expenseViewModel.getTotalExpensesByCategoryAndMonth(category.name),
                                           showTitle: false,
                                         );
                                       }).toList(),
